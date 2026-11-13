@@ -22,7 +22,7 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-base); color: var(--text-main); overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
         
         /* Local Du Bois Background */
         .dubois-bg {
@@ -37,7 +37,7 @@
         
         .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; text-align: center; }
         .hero h1 { font-size: 5.5rem; letter-spacing: -1px; margin-bottom: 24px; background: -webkit-linear-gradient(#fff, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
         
         .glass-panel {
             background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -62,29 +62,32 @@
             background: radial-gradient(circle 120px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.98) 100%);
         }
 
-        /* Interactive 2: Timeline */
+        /* Interactive 2: The Archive Sliding Puzzle */
+        .puzzle-section { display: flex; flex-direction: column; align-items: center; }
+        #puzzle-board {
+            width: 300px; height: 360px; background: #111; border: 2px solid var(--glass-border);
+            border-radius: 8px; position: relative; margin: 30px auto;
+        }
+        .puzzle-tile {
+            width: 100px; height: 120px; position: absolute;
+            background-image: url('Letter.jpg'); background-size: 300px 360px;
+            border: 1px solid #222; cursor: pointer; transition: top 0.2s, left 0.2s;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .puzzle-tile.empty { background: none; border: none; box-shadow: none; cursor: default; }
+        #puzzle-win { display: none; font-size: 1.5rem; color: var(--correct); font-family: 'Playfair Display', serif; margin-top: 20px; text-align: center; }
+
+        /* Timeline / Frameworks */
         .timeline { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
         .timeline-item { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); transition: transform 0.3s; }
         .timeline-item:hover { transform: translateX(10px); background: rgba(255,255,255,0.08); }
-        .timeline-year { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent); font-weight: bold; min-width: 100px; }
+        .timeline-chapter { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent); font-weight: bold; min-width: 250px; }
         .timeline-content p { margin: 0; font-size: 1rem; }
 
-        /* Interactive 3: Quote Decryptor */
-        .quote-decryptor { font-family: 'Playfair Display', serif; font-size: 2rem; line-height: 1.6; margin-bottom: 30px; }
-        .blank-space { display: inline-block; width: 250px; border-bottom: 2px dashed var(--accent); color: var(--accent); text-align: center; }
-        .decrypt-options { display: flex; gap: 15px; flex-wrap: wrap; }
-        .decrypt-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px 24px; border-radius: 8px; color: #fff; font-family: 'Inter'; cursor: pointer; transition: all 0.2s; }
-        .decrypt-btn:hover { background: rgba(255,255,255,0.15); }
-        .decrypt-btn.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--correct); color: var(--correct); }
-        .decrypt-btn.incorrect { background: rgba(248, 113, 113, 0.2); border-color: var(--incorrect); color: var(--incorrect); }
-
-        /* Original Quiz */
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
-        .option-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 16px 24px; border-radius: 12px; color: var(--text-main); font-size: 1rem; cursor: pointer; text-align: left; transition: all 0.2s; }
-        .option-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
-        .option-btn.correct { background: rgba(52,211,153,0.2); border-color: var(--correct); color: var(--correct); }
-        .option-btn.incorrect { background: rgba(248,113,113,0.2); border-color: var(--incorrect); color: var(--incorrect); }
-        #quiz-result { margin-top: 30px; font-size: 1.5rem; font-family: 'Playfair Display', serif; color: var(--accent); display: none; }
+        /* Bibliography */
+        .bibliography { background: rgba(0,0,0,0.5); padding: 40px; border-radius: 16px; border: 1px solid var(--glass-border); }
+        .bibliography h3 { margin-bottom: 20px; font-size: 1.8rem; color: var(--accent); }
+        .bib-entry { margin-bottom: 15px; font-size: 0.95rem; line-height: 1.6; padding-left: 30px; text-indent: -30px; color: #a1a1aa; }
     </style>
 </head>
 <body>
@@ -95,10 +98,10 @@
     <div class="container">
         <section class="hero">
             <h1>The Tangent of the Veil</h1>
-            <p>An immersive digital exploration of Viola B. Goin's 1933 archival letter, analyzed through the foundational sociological frameworks of W.E.B. Du Bois.</p>
+            <p>An immersive digital exploration of Viola B. Goin's 1933 archival letter, analyzing the intersection of African American higher education, double consciousness, and institutional integration[cite: 1].</p>
         </section>
 
-        <!-- New: Interactive Veil Flashlight -->
+        <!-- Interactive 1: Veil Flashlight -->
         <section class="glass-panel panel">
             <h2>Lifting the Veil</h2>
             <p>Hover your cursor over the darkness below to reveal the core concept underpinning this archive.</p>
@@ -108,60 +111,42 @@
             </div>
         </section>
 
-        <section class="glass-panel panel">
-            <h2>The Archival Artifact</h2>
-            <p>On October 16, 1933, Viola B. Goin, the first Black student at the Yale School of Nursing, wrote a letter to <em>The Crisis</em> requesting information on Black hospitals across the country.</p>
-            <p>This physical artifact serves as a tangible intersection of race, higher education, and institutional access. <a href="http://credo.library.umass.edu/view/full/mums312-b065-i428" target="_blank">View Original Document &rarr;</a></p>
+        <!-- Interactive 2: The Picture Puzzle -->
+        <section class="glass-panel panel puzzle-section">
+            <h2>Reconstructing the Archive</h2>
+            <p>This archival item—a 1933 letter from Viola B. Goin, the first Black student at the Yale School of Nursing, seeking information on Black hospitals—contextualizes the striving Du Bois discusses throughout his work[cite: 1]. Click adjacent tiles to slide them into the empty space and reveal the historic letter.</p>
+            <div id="puzzle-board"></div>
+            <div id="puzzle-win">Artifact Restored. The Yale compromise is revealed.</div>
+            <p style="margin-top:20px; font-size: 0.9rem; text-align: center;"><a href="http://credo.library.umass.edu/view/full/mums312-b065-i428" target="_blank">View Original Document in CREDO Archive[cite: 1] &rarr;</a></p>
         </section>
 
-        <!-- New: Interactive Timeline -->
+        <!-- Content Integration directly from Outline -->
         <section class="glass-panel panel">
-            <h2>The Arc of Ambition</h2>
+            <h2>Integrating the Archive with Du Bois</h2>
+            <p>Goin's letter illustrates how Black professionals pursued higher education while remaining devoted to community uplift, bringing up questions about how Black women in STEM navigated the dual expectations of white-dominated institutions and their own communities[cite: 1].</p>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-year">1903</div>
-                    <div class="timeline-content"><p><strong>The Souls of Black Folk Published:</strong> Du Bois introduces "double consciousness" and fiercely critiques Booker T. Washington's industrial compromise.</p></div>
+                    <div class="timeline-chapter">Of our Spiritual Strivings[cite: 1, 4]</div>
+                    <div class="timeline-content"><p>This highlights the "double consciousness" and the striving for education as a means to lift the Veil, matching Goin's ambitions[cite: 1].</p></div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">1920</div>
-                    <div class="timeline-content"><p><strong>Darkwater Published:</strong> <em>The Souls of White Folk</em> dissects the systemic exclusivity and racial superiority built into American institutions.</p></div>
+                    <div class="timeline-chapter">Of Mr. Booker T. Washington and Others[cite: 1, 4]</div>
+                    <div class="timeline-content"><p>This refutes Washington's limitation to industrial training; Goin's pursuit of an advanced nursing degree embodies Du Bois’s advocacy for higher, specialized education[cite: 1].</p></div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">1933</div>
-                    <div class="timeline-content"><p><strong>The Goin Letter:</strong> Viola B. Goin, pushing past industrial limitations into Ivy League academia, writes to The Crisis, actively navigating the very systems Du Bois critiqued.</p></div>
+                    <div class="timeline-chapter">The Souls of White Folk[cite: 1, 4]</div>
+                    <div class="timeline-content"><p>This provides context on the systemic white supremacy within institutions that Goin had to navigate, contrasting her community-focused research with the exclusivity of white academia[cite: 1].</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- New: Quote Decryptor -->
-        <section class="glass-panel panel">
-            <h2>Decrypting the Striving</h2>
-            <p>Complete the theory to unlock Goin's motivation.</p>
-            <div class="quote-decryptor">
-                "It is a peculiar sensation, this <span class="blank-space" id="blank-space">___________</span>, this sense of always looking at one’s self through the eyes of others..."
-            </div>
-            <div class="decrypt-options">
-                <button class="decrypt-btn" onclick="checkQuote(this, false, 'Talented Tenth')">Talented Tenth</button>
-                <button class="decrypt-btn" onclick="checkQuote(this, true, 'double-consciousness')">Double Consciousness</button>
-                <button class="decrypt-btn" onclick="checkQuote(this, false, 'Color Line')">Color Line</button>
-            </div>
-            <p id="quote-reveal" style="display:none; margin-top:20px; color:var(--correct);"><em>Correct. Goin operated within Yale (white space) while seeking Black hospitals, perfectly embodying this dual existence.</em></p>
-        </section>
-
-        <section class="glass-panel panel">
-            <h2>Interactive: The Veil Challenge</h2>
-            <p>Final Knowledge Check.</p>
-            <div class="quiz-container" id="quiz">
-                <div class="quiz-question" style="display:block;">
-                    <h3>Which leader did Du Bois critique for advocating primarily for industrial and manual labor training, a limitation Goin defied?</h3>
-                    <div class="options-grid">
-                        <button class="option-btn" onclick="handleQuiz(this, false)">Frederick Douglass</button>
-                        <button class="option-btn" onclick="handleQuiz(this, false)">Marcus Garvey</button>
-                        <button class="option-btn" onclick="handleQuiz(this, true)">Booker T. Washington</button>
-                    </div>
-                </div>
-                <div id="quiz-result"></div>
-            </div>
+        <!-- Formal APA Bibliography -->
+        <section class="bibliography panel">
+            <h3>Works Cited</h3>
+            <div class="bib-entry">Du Bois, W. E. B. (2007). The souls of white folk. In <em>Darkwater: Voices from within the veil</em>. Oxford University Press.[cite: 9]</div>
+            <div class="bib-entry">Du Bois, W. E. B. (2018). Of our spiritual strivings. In <em>The souls of Black folk: Essays and sketches</em> (1-12). University of Massachusetts Press.[cite: 9]</div>
+            <div class="bib-entry">Du Bois, W. E. B. (2018). Of Mr. Booker T. Washington and others. In <em>The souls of Black folk: Essays and sketches</em> (40-57). University of Massachusetts Press.[cite: 9]</div>
+            <div class="bib-entry">Goin, V. B. (1933, October 16). <em>Letter from Viola B. Goin to The Crisis</em>. W. E. B. Du Bois Papers (MS 312). Special Collections and University Archives, University of Massachusetts Amherst Libraries, Amherst, MA. http://credo.library.umass.edu/view/full/mums312-b065-i428[cite: 1]</div>
         </section>
     </div>
 
@@ -180,7 +165,6 @@
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const material = new THREE.PointsMaterial({ size: 0.015, color: 0x60a5fa, transparent: true, opacity: 0.4 });
         const particlesMesh = new THREE.Points(particlesGeometry, material);
-        
         scene.add(particlesMesh);
         camera.position.z = 4;
 
@@ -208,51 +192,112 @@
             });
         });
 
-        // 3. Flashlight Effect Logic
+        // 3. Flashlight Effect
         const veilBox = document.getElementById('veil-box');
         const flashlight = document.getElementById('flashlight');
         veilBox.addEventListener('mousemove', (e) => {
             const rect = veilBox.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            flashlight.style.setProperty('--x', `${x}px`);
-            flashlight.style.setProperty('--y', `${y}px`);
+            flashlight.style.setProperty('--x', `${e.clientX - rect.left}px`);
+            flashlight.style.setProperty('--y', `${e.clientY - rect.top}px`);
         });
 
-        // 4. Quote Decryptor Logic
-        function checkQuote(btn, isCorrect, text) {
-            document.querySelectorAll('.decrypt-btn').forEach(b => b.style.pointerEvents = 'none');
-            const blank = document.getElementById('blank-space');
-            blank.textContent = text;
-            if(isCorrect) {
-                btn.classList.add('correct');
-                document.getElementById('quote-reveal').style.display = 'block';
-                gsap.from('#quote-reveal', {opacity: 0, y: 10, duration: 0.5});
-            } else {
-                btn.classList.add('incorrect');
-                blank.style.color = "var(--incorrect)";
-                blank.style.borderBottomColor = "var(--incorrect)";
+        // 4. Sliding Image Puzzle Logic
+        const board = document.getElementById('puzzle-board');
+        let tiles = [];
+        const cols = 3, rows = 3;
+        const tileW = 100, tileH = 120; // 300x360 board
+
+        function initPuzzle() {
+            let index = 0;
+            for(let r = 0; r < rows; r++) {
+                for(let c = 0; c < cols; c++) {
+                    const tile = document.createElement('div');
+                    tile.classList.add('puzzle-tile');
+                    tile.style.left = `${c * tileW}px`;
+                    tile.style.top = `${r * tileH}px`;
+                    
+                    if (index === 8) {
+                        tile.classList.add('empty');
+                    } else {
+                        tile.style.backgroundPosition = `-${c * tileW}px -${r * tileH}px`;
+                    }
+                    
+                    tile.dataset.index = index;
+                    tile.dataset.currentX = c;
+                    tile.dataset.currentY = r;
+                    
+                    tile.addEventListener('click', () => moveTile(tile));
+                    board.appendChild(tile);
+                    tiles.push(tile);
+                    index++;
+                }
+            }
+            shufflePuzzle();
+        }
+
+        function shufflePuzzle() {
+            // Random valid moves to ensure solvability
+            let emptyTile = tiles[8];
+            for(let i=0; i<150; i++) {
+                const ex = parseInt(emptyTile.dataset.currentX);
+                const ey = parseInt(emptyTile.dataset.currentY);
+                const neighbors = tiles.filter(t => {
+                    const tx = parseInt(t.dataset.currentX);
+                    const ty = parseInt(t.dataset.currentY);
+                    return (Math.abs(tx - ex) + Math.abs(ty - ey) === 1);
+                });
+                const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+                swapTiles(randomNeighbor, emptyTile, false);
             }
         }
 
-        // 5. Mini Quiz Logic
-        function handleQuiz(btn, isCorrect) {
-            const siblings = btn.parentElement.querySelectorAll('.option-btn');
-            siblings.forEach(b => b.style.pointerEvents = 'none');
-            const result = document.getElementById('quiz-result');
-            
-            if(isCorrect) {
-                btn.classList.add('correct');
-                result.innerHTML = "Correct! Goin refused the industrial compromise by attending Yale.";
-                result.style.color = "var(--correct)";
-            } else {
-                btn.classList.add('incorrect');
-                result.innerHTML = "Incorrect. The answer is Booker T. Washington.";
-                result.style.color = "var(--incorrect)";
+        function moveTile(tile) {
+            if(tile.classList.contains('empty')) return;
+            const emptyTile = tiles[8];
+            const tx = parseInt(tile.dataset.currentX);
+            const ty = parseInt(tile.dataset.currentY);
+            const ex = parseInt(emptyTile.dataset.currentX);
+            const ey = parseInt(emptyTile.dataset.currentY);
+
+            // Check if adjacent
+            if (Math.abs(tx - ex) + Math.abs(ty - ey) === 1) {
+                swapTiles(tile, emptyTile, true);
+                checkWin();
             }
-            result.style.display = 'block';
-            gsap.from(result, {opacity: 0, y: 10, duration: 0.5});
         }
+
+        function swapTiles(t1, t2, animate) {
+            const tempX = t1.dataset.currentX;
+            const tempY = t1.dataset.currentY;
+            t1.dataset.currentX = t2.dataset.currentX;
+            t1.dataset.currentY = t2.dataset.currentY;
+            t2.dataset.currentX = tempX;
+            t2.dataset.currentY = tempY;
+
+            t1.style.left = `${t1.dataset.currentX * tileW}px`;
+            t1.style.top = `${t1.dataset.currentY * tileH}px`;
+            t2.style.left = `${t2.dataset.currentX * tileW}px`;
+            t2.style.top = `${t2.dataset.currentY * tileH}px`;
+        }
+
+        function checkWin() {
+            let isWin = true;
+            tiles.forEach(tile => {
+                const index = parseInt(tile.dataset.index);
+                const cx = parseInt(tile.dataset.currentX);
+                const cy = parseInt(tile.dataset.currentY);
+                const expectedX = index % cols;
+                const expectedY = Math.floor(index / cols);
+                if(cx !== expectedX || cy !== expectedY) isWin = false;
+            });
+            if(isWin) {
+                tiles[8].classList.remove('empty');
+                tiles[8].style.backgroundPosition = `-200px -240px`;
+                document.getElementById('puzzle-win').style.display = 'block';
+            }
+        }
+
+        initPuzzle();
     </script>
 </body>
 </html>
