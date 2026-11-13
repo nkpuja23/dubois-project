@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tangent of the Veil | Du Bois Archive</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --accent: #4a90e2;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+        
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 100px 20px; position: relative; z-index: 1; }
+        
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        .hero h1 { font-size: 4rem; font-weight: 300; letter-spacing: -1px; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-card h2 { font-size: 2rem; margin-bottom: 20px; font-weight: 400; color: var(--accent); }
+        .glass-card p { font-size: 1.1rem; line-height: 1.8; color: #d0d0d0; margin-bottom: 15px; }
+        .glass-card a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); transition: opacity 0.3s; }
+        .glass-card a:hover { opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="container">
+        <section class="hero">
+            <h1>The Tangent of the Veil</h1>
+            <p>An interactive exploration of Viola B. Goin's 1933 letter to The Crisis, viewed through the theoretical frameworks of W.E.B. Du Bois.</p>
+        </section>
+
+        <section class="glass-card panel">
+            <h2>The Archival Artifact</h2>
+            <p>On October 16, 1933, Viola B. Goin, the first Black student at the Yale School of Nursing, wrote a letter to <em>The Crisis</em>. In this brief correspondence, she sought information on Black hospitals across the country.</p>
+            <p>This artifact serves as a tangible intersection of race, gender, and institutional access during the early 20th century. <a href="http://credo.library.umass.edu/view/full/mums312-b065-i428" target="_blank">View Original Document in CREDO Archive</a></p>
+        </section>
+
+        <section class="glass-card panel">
+            <h2>Double Consciousness & Ambition</h2>
+            <p>Goin's letter perfectly encapsulates the "double consciousness" Du Bois theorizes in <em>Of our Spiritual Strivings</em>. She is operating within an elite, white-dominated space (Yale), yet her inquiry demonstrates a commitment to lifting the Veil for her own community by seeking Black medical institutions.</p>
+        </section>
+
+        <section class="glass-card panel">
+            <h2>Defying the Compromise</h2>
+            <p>In <em>Of Mr. Booker T. Washington and Others</em>, Du Bois fiercely critiques the limitation of Black education to mere industrial training. Goin’s pursuit of an advanced, specialized nursing degree at an Ivy League institution is a living manifestation of Du Bois’s demand for the higher education of Black professionals.</p>
+        </section>
+
+        <section class="glass-card panel">
+            <h2>Navigating Systemic Supremacy</h2>
+            <p>Goin's very presence at Yale, and her subsequent need to seek out independent Black hospitals, provides stark context to the environment detailed in <em>The Souls of White Folk</em>. The systemic exclusivity of white institutions necessitated the parallel development of Black professional networks, a reality Goin navigated daily.</p>
+        </section>
+    </div>
+
+    <script>
+        // Three.js Abstract Particle Background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 700;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const material = new THREE.PointsMaterial({ size: 0.005, color: 0x4a90e2, transparent: true, opacity: 0.8 });
+        const particlesMesh = new THREE.Points(particlesGeometry, material);
+        
+        scene.add(particlesMesh);
+        camera.position.z = 3;
+
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (event) => {
+            mouseX = event.clientX / window.innerWidth - 0.5;
+            mouseY = event.clientY / window.innerHeight - 0.5;
+        });
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += 0.0005;
+            
+            // Subtle parallax
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // GSAP Scroll Animations for Glass Cards
+        gsap.registerPlugin(ScrollTrigger);
+        
+        gsap.utils.toArray('.panel').forEach(panel => {
+            gsap.to(panel, {
+                scrollTrigger: {
+                    trigger: panel,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
