@@ -3,84 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Tangent of the Veil | Du Bois Archive</title>
+    <title>The Tangent of the Veil | Interactive Archive</title>
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         :root {
-            --bg-dark: #050505;
-            --glass-bg: rgba(255, 255, 255, 0.03);
+            --bg-base: #0a0a0c;
+            --glass-bg: rgba(20, 20, 25, 0.4);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f0f0f0;
-            --text-muted: #a0a0a0;
-            --accent: #4a90e2;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --correct: #34d399;
+            --incorrect: #f87171;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
-        
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
-        
-        .container { max-width: 900px; margin: 0 auto; padding: 100px 20px; position: relative; z-index: 1; }
-        
-        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; text-align: left; }
-        .hero h1 { font-size: 4rem; font-weight: 300; letter-spacing: -1px; margin-bottom: 20px; }
-        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; }
-        
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 50px;
-            margin-bottom: 100px;
-            opacity: 0;
-            transform: translateY(50px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-base); 
+            color: var(--text-main); 
+            overflow-x: hidden; 
         }
         
-        .glass-card h2 { font-size: 2rem; margin-bottom: 20px; font-weight: 400; color: var(--accent); }
-        .glass-card p { font-size: 1.1rem; line-height: 1.8; color: #d0d0d0; margin-bottom: 15px; }
-        .glass-card a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); transition: opacity 0.3s; }
-        .glass-card a:hover { opacity: 0.7; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+        
+        /* Translucent Du Bois Background */
+        .dubois-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/17/WEB_DuBois_1918.jpg');
+            background-size: cover;
+            background-position: center top;
+            opacity: 0.12; /* Translucent effect */
+            z-index: -2;
+            mix-blend-mode: luminosity; /* Blends into the dark theme */
+        }
+
+        /* 3D Particle Canvas */
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 100px 20px; position: relative; z-index: 1; }
+        
+        .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .hero h1 { font-size: 5rem; letter-spacing: -1px; margin-bottom: 24px; background: -webkit-linear-gradient(#fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+        .hero .scroll-indicator { margin-top: 50px; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); opacity: 0.7; animation: pulse 2s infinite; }
+
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+        
+        /* Advanced Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            border-left: 1px solid rgba(255,255,255,0.15);
+            border-radius: 24px;
+            padding: 60px;
+            margin-bottom: 80px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(60px);
+        }
+        
+        .glass-panel h2 { font-size: 2.5rem; margin-bottom: 24px; color: #fff; }
+        .glass-panel p { font-size: 1.15rem; line-height: 1.8; color: #d4d4d8; margin-bottom: 20px; font-weight: 300; }
+        .glass-panel a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s; }
+        .glass-panel a:hover { border-bottom: 1px solid var(--accent); color: #fff; }
+
+        /* Interactive Quiz Section */
+        .quiz-container { margin-top: 40px; }
+        .quiz-question { margin-bottom: 30px; display: none; }
+        .quiz-question.active { display: block; animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .quiz-question h3 { font-size: 1.5rem; margin-bottom: 20px; font-family: 'Inter', sans-serif; font-weight: 600; }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .option-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(5px); }
+        .option-btn.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--correct); color: var(--correct); }
+        .option-btn.incorrect { background: rgba(248, 113, 113, 0.2); border-color: var(--incorrect); color: var(--incorrect); }
+        
+        #quiz-result { margin-top: 30px; font-size: 1.5rem; font-family: 'Playfair Display', serif; color: var(--accent); display: none; }
     </style>
 </head>
 <body>
 
+    <div class="dubois-bg"></div>
     <div id="canvas-container"></div>
 
     <div class="container">
         <section class="hero">
             <h1>The Tangent of the Veil</h1>
-            <p>An interactive exploration of Viola B. Goin's 1933 letter to The Crisis, viewed through the theoretical frameworks of W.E.B. Du Bois.</p>
+            <p>An immersive digital exploration of Viola B. Goin's 1933 archival letter, analyzed through the foundational sociological frameworks of W.E.B. Du Bois.</p>
+            <div class="scroll-indicator">Scroll to Explore</div>
         </section>
 
-        <section class="glass-card panel">
+        <section class="glass-panel panel">
             <h2>The Archival Artifact</h2>
-            <p>On October 16, 1933, Viola B. Goin, the first Black student at the Yale School of Nursing, wrote a letter to <em>The Crisis</em>. In this brief correspondence, she sought information on Black hospitals across the country.</p>
-            <p>This artifact serves as a tangible intersection of race, gender, and institutional access during the early 20th century. <a href="http://credo.library.umass.edu/view/full/mums312-b065-i428" target="_blank">View Original Document in CREDO Archive</a></p>
+            <p>On October 16, 1933, Viola B. Goin, the first Black student at the Yale School of Nursing, wrote a letter to <em>The Crisis</em> requesting information on Black hospitals across the country.</p>
+            <p>This physical artifact serves as a tangible intersection of race, higher education, and institutional access during the early 20th century. <a href="http://credo.library.umass.edu/view/full/mums312-b065-i428" target="_blank">View Original Document in CREDO Archive &rarr;</a></p>
         </section>
 
-        <section class="glass-card panel">
-            <h2>Double Consciousness & Ambition</h2>
-            <p>Goin's letter perfectly encapsulates the "double consciousness" Du Bois theorizes in <em>Of our Spiritual Strivings</em>. She is operating within an elite, white-dominated space (Yale), yet her inquiry demonstrates a commitment to lifting the Veil for her own community by seeking Black medical institutions.</p>
+        <section class="glass-panel panel">
+            <h2>Double Consciousness in Action</h2>
+            <p>Goin's letter encapsulates the "double consciousness" theorized in <em>Of our Spiritual Strivings</em>. Operating within an elite, white-dominated space (Yale), her inquiry demonstrates a profound commitment to her own community by actively seeking Black medical institutions.</p>
         </section>
 
-        <section class="glass-card panel">
-            <h2>Defying the Compromise</h2>
-            <p>In <em>Of Mr. Booker T. Washington and Others</em>, Du Bois fiercely critiques the limitation of Black education to mere industrial training. Goin’s pursuit of an advanced, specialized nursing degree at an Ivy League institution is a living manifestation of Du Bois’s demand for the higher education of Black professionals.</p>
+        <section class="glass-panel panel">
+            <h2>Defying the Washington Compromise</h2>
+            <p>In <em>Of Mr. Booker T. Washington and Others</em>, Du Bois fiercely critiques the limitation of Black education to industrial training. Goin’s pursuit of a highly specialized nursing degree at an Ivy League institution is a living manifestation of Du Bois’s demand for intellectual and professional advancement.</p>
         </section>
 
-        <section class="glass-card panel">
+        <section class="glass-panel panel">
             <h2>Navigating Systemic Supremacy</h2>
-            <p>Goin's very presence at Yale, and her subsequent need to seek out independent Black hospitals, provides stark context to the environment detailed in <em>The Souls of White Folk</em>. The systemic exclusivity of white institutions necessitated the parallel development of Black professional networks, a reality Goin navigated daily.</p>
+            <p>Goin's very presence at Yale, and her subsequent need to seek out independent Black hospitals, provides stark context to the environment detailed in <em>The Souls of White Folk</em>. The systemic exclusivity of white institutions necessitated the parallel development of Black professional networks.</p>
+        </section>
+
+        <!-- Interactive Game Section -->
+        <section class="glass-panel panel">
+            <h2>Interactive: The Veil Challenge</h2>
+            <p>Test your knowledge of the theoretical frameworks and archival history explored in this exhibit.</p>
+            
+            <div class="quiz-container" id="quiz">
+                <!-- Question 1 -->
+                <div class="quiz-question active" data-q="0">
+                    <h3>1. Which Du Bois concept describes "always looking at one’s self through the eyes of others"?</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" data-correct="false">The Talented Tenth</button>
+                        <button class="option-btn" data-correct="true">Double Consciousness</button>
+                        <button class="option-btn" data-correct="false">The Color Line</button>
+                    </div>
+                </div>
+                <!-- Question 2 -->
+                <div class="quiz-question" data-q="1">
+                    <h3>2. Which leader did Du Bois critique for advocating primarily for industrial and manual labor training?</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" data-correct="false">Frederick Douglass</button>
+                        <button class="option-btn" data-correct="false">Marcus Garvey</button>
+                        <button class="option-btn" data-correct="true">Booker T. Washington</button>
+                    </div>
+                </div>
+                <!-- Question 3 -->
+                <div class="quiz-question" data-q="2">
+                    <h3>3. Viola B. Goin was the first Black student at which elite institution's nursing school?</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" data-correct="true">Yale University</button>
+                        <button class="option-btn" data-correct="false">Harvard University</button>
+                        <button class="option-btn" data-correct="false">University of Massachusetts</button>
+                    </div>
+                </div>
+                
+                <div id="quiz-result"></div>
+            </div>
         </section>
     </div>
 
     <script>
-        // Three.js Abstract Particle Background
+        // 1. Subtle 3D Particle Background (Three.js)
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -89,19 +187,19 @@
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 700;
+        const particlesCount = 800;
         const posArray = new Float32Array(particlesCount * 3);
 
         for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
+            posArray[i] = (Math.random() - 0.5) * 15;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const material = new THREE.PointsMaterial({ size: 0.005, color: 0x4a90e2, transparent: true, opacity: 0.8 });
+        const material = new THREE.PointsMaterial({ size: 0.015, color: 0x60a5fa, transparent: true, opacity: 0.4 });
         const particlesMesh = new THREE.Points(particlesGeometry, material);
         
         scene.add(particlesMesh);
-        camera.position.z = 3;
+        camera.position.z = 4;
 
         let mouseX = 0;
         let mouseY = 0;
@@ -113,12 +211,11 @@
 
         const animate = () => {
             requestAnimationFrame(animate);
-            particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.0005;
+            particlesMesh.rotation.y += 0.0005;
+            particlesMesh.rotation.x += 0.0002;
             
-            // Subtle parallax
-            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.05;
             
             renderer.render(scene, camera);
         }
@@ -130,10 +227,10 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // GSAP Scroll Animations for Glass Cards
+        // 2. GSAP Smooth Scroll Reveal Animations
         gsap.registerPlugin(ScrollTrigger);
         
-        gsap.utils.toArray('.panel').forEach(panel => {
+        gsap.utils.toArray('.panel').forEach((panel, i) => {
             gsap.to(panel, {
                 scrollTrigger: {
                     trigger: panel,
@@ -142,8 +239,53 @@
                 },
                 y: 0,
                 opacity: 1,
-                duration: 1,
-                ease: "power3.out"
+                duration: 1.2,
+                ease: "power3.out",
+                delay: i * 0.1 
+            });
+        });
+
+        // 3. Interactive Quiz Logic
+        let currentQuestion = 0;
+        let score = 0;
+        const questions = document.querySelectorAll('.quiz-question');
+        const buttons = document.querySelectorAll('.option-btn');
+        const resultDisplay = document.getElementById('quiz-result');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+                const parentGroup = this.closest('.quiz-question');
+                const siblings = parentGroup.querySelectorAll('.option-btn');
+                
+                // Disable all buttons in this question
+                siblings.forEach(b => b.style.pointerEvents = 'none');
+
+                if (isCorrect) {
+                    this.classList.add('correct');
+                    score++;
+                } else {
+                    this.classList.add('incorrect');
+                    // Highlight the correct answer
+                    siblings.forEach(b => {
+                        if(b.getAttribute('data-correct') === 'true') b.classList.add('correct');
+                    });
+                }
+
+                // Move to next question after delay
+                setTimeout(() => {
+                    parentGroup.classList.remove('active');
+                    currentQuestion++;
+                    
+                    if (currentQuestion < questions.length) {
+                        questions[currentQuestion].classList.add('active');
+                    } else {
+                        // Show Final Score
+                        resultDisplay.style.display = 'block';
+                        resultDisplay.innerHTML = `Challenge Complete! You scored ${score} out of ${questions.length}.`;
+                        gsap.from(resultDisplay, {y: 20, opacity: 0, duration: 0.8});
+                    }
+                }, 1200);
             });
         });
     </script>
