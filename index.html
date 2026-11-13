@@ -348,39 +348,54 @@
         }
         initPuzzle();
 
-        // 5. Quote Decryptor Logic
+        // 5. Quote Decryptor Logic (With Retry)
         function checkQuote(btn, isCorrect, text) {
-            document.querySelectorAll('.decrypt-btn').forEach(b => b.style.pointerEvents = 'none');
             const blank = document.getElementById('blank-space');
             blank.textContent = text;
+            
             if(isCorrect) {
+                // Disable all buttons once the correct answer is found
+                document.querySelectorAll('.decrypt-btn').forEach(b => b.style.pointerEvents = 'none');
                 btn.classList.add('correct');
+                blank.style.color = "var(--correct)";
+                blank.style.borderBottomColor = "var(--correct)";
+                
                 document.getElementById('quote-reveal').style.display = 'block';
-                gsap.from('#quote-reveal', {opacity: 0, y: 10, duration: 0.5});
+                gsap.fromTo('#quote-reveal', {opacity: 0, y: 10}, {opacity: 1, y: 0, duration: 0.5});
             } else {
+                // Mark only the clicked button as incorrect and disable just that one
                 btn.classList.add('incorrect');
+                btn.style.pointerEvents = 'none';
                 blank.style.color = "var(--incorrect)";
                 blank.style.borderBottomColor = "var(--incorrect)";
             }
         }
 
-        // 6. Mini Quiz Logic
+        // 6. Mini Quiz Logic (With Retry)
         function handleQuiz(btn, isCorrect) {
-            const siblings = btn.parentElement.querySelectorAll('.option-btn');
-            siblings.forEach(b => b.style.pointerEvents = 'none');
             const result = document.getElementById('quiz-result');
             
             if(isCorrect) {
+                // Disable all buttons once the correct answer is found
+                const siblings = btn.parentElement.querySelectorAll('.option-btn');
+                siblings.forEach(b => b.style.pointerEvents = 'none');
+                
                 btn.classList.add('correct');
                 result.innerHTML = "Correct! Goin refused the industrial compromise by attending Yale.";
                 result.style.color = "var(--correct)";
             } else {
+                // Mark only the clicked button as incorrect, disable it, and prompt retry
                 btn.classList.add('incorrect');
-                result.innerHTML = "Incorrect. The answer is Booker T. Washington.";
+                btn.style.pointerEvents = 'none';
+                
+                result.innerHTML = "Incorrect. Try again!";
                 result.style.color = "var(--incorrect)";
             }
+            
             result.style.display = 'block';
-            gsap.from(result, {opacity: 0, y: 10, duration: 0.5});
+            // Restart the animation every time they click so they see the updated message
+            gsap.killTweensOf(result);
+            gsap.fromTo(result, {opacity: 0, y: 10}, {opacity: 1, y: 0, duration: 0.5});
         }
     </script>
 </body>
