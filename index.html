@@ -27,7 +27,7 @@
         /* Local Du Bois Background */
         .dubois-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('Du_Bois_img.jpg');
+            background-image: url('Du_Bois_img_2.jpg');
             background-size: cover; background-position: center top;
             opacity: 0.15; z-index: -2; mix-blend-mode: luminosity;
         }
@@ -77,14 +77,14 @@
         .puzzle-tile.empty { background: none; border: none; box-shadow: none; cursor: default; }
         #puzzle-win { display: none; font-size: 1.5rem; color: var(--correct); font-family: 'Playfair Display', serif; margin-top: 20px; text-align: center; }
 
-        /* Interactive 3: Timeline / Frameworks */
+        /* Timeline / Frameworks */
         .timeline { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
         .timeline-item { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); transition: transform 0.3s; }
         .timeline-item:hover { transform: translateX(10px); background: rgba(255,255,255,0.08); }
         .timeline-chapter { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent); font-weight: bold; min-width: 250px; }
         .timeline-content p { margin: 0; font-size: 1rem; }
 
-        /* Interactive 4: Quote Decryptor */
+        /* Quote Decryptor */
         .quote-decryptor { font-family: 'Playfair Display', serif; font-size: 2rem; line-height: 1.6; margin-bottom: 30px; }
         .blank-space { display: inline-block; width: 250px; border-bottom: 2px dashed var(--accent); color: var(--accent); text-align: center; }
         .decrypt-options { display: flex; gap: 15px; flex-wrap: wrap; }
@@ -93,7 +93,7 @@
         .decrypt-btn.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--correct); color: var(--correct); }
         .decrypt-btn.incorrect { background: rgba(248, 113, 113, 0.2); border-color: var(--incorrect); color: var(--incorrect); }
 
-        /* Interactive 5: Original Quiz */
+        /* Quiz */
         .options-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
         .option-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 16px 24px; border-radius: 12px; color: var(--text-main); font-size: 1rem; cursor: pointer; text-align: left; transition: all 0.2s; }
         .option-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
@@ -115,15 +115,15 @@
     <div class="container">
         <section class="hero">
             <h1>The Tangent of the Veil</h1>
-            <p>An immersive digital exploration of Viola B. Goin's 1933 archival letter, analyzing the intersection of African American higher education, double consciousness, and institutional integration.</p>
+            <p>A project by Puja Karthikeyan displaying an immersive exploration of Viola B. Goin's 1933 archival letter, which analyzes the intersection of African American higher education, double consciousness, and institutional integration.</p>
         </section>
 
         <!-- Interactive 1: Veil Flashlight -->
         <section class="glass-panel panel">
             <h2>Lifting the Veil</h2>
-            <p>Hover your cursor over the darkness below to reveal the core concept underpinning this archive.</p>
+            <p>Hover your cursor over the darkness to reveal the core concept behind this archive.</p>
             <div class="veil-container" id="veil-box">
-                <div class="veil-text">"the Negro is a sort of seventh son, born with a veil, and gifted with second-sight in this American world..."<br><span style="font-size:1.2rem; color:var(--accent);">— W.E.B. Du Bois, 1903</span></div>
+                <div class="veil-text">"the Negro is a sort of seventh son, born with a veil, and gifted with second-sight in this American world..."<br><span style="font-size:1.2rem; color:var(--accent);">— W.E.B. Du Bois (2018, p. 2)</span></div>
                 <div class="flashlight-mask" id="flashlight"></div>
             </div>
         </section>
@@ -131,33 +131,33 @@
         <!-- Interactive 2: The Picture Puzzle -->
         <section class="glass-panel panel puzzle-section">
             <h2>Reconstructing the Archive</h2>
-            <p>This archival item—a 1933 letter from Viola B. Goin, the first Black student at the Yale School of Nursing, seeking information on Black hospitals—contextualizes the striving Du Bois discusses throughout his work. Click adjacent tiles to slide them into the empty space and reveal the historic letter.</p>
+            <p>This archival item is a 1933 letter from Viola B. Goin, the first Black student at the Yale School of Nursing, seeking information on Black hospitals. Itcontextualizes the striving Du Bois discusses throughout his work (Goin, 1933). Click adjacent tiles to slide them into the empty space and reveal the historic letter.</p>
             <div id="puzzle-board"></div>
-            <div id="puzzle-win">Artifact Restored. The Yale compromise is revealed.</div>
+            <div id="puzzle-win">Artifact Restored! The Yale compromise is revealed.</div>
             <p style="margin-top:20px; font-size: 0.9rem; text-align: center;"><a href="http://credo.library.umass.edu/view/full/mums312-b065-i428" target="_blank">View Original Document in CREDO Archive &rarr;</a></p>
         </section>
 
-        <!-- Interactive 3: Content Integration directly from Outline -->
+        <!-- Content Integration -->
         <section class="glass-panel panel">
             <h2>Integrating the Archive with Du Bois</h2>
-            <p>Goin's letter illustrates how Black professionals pursued higher education while remaining devoted to community uplift, bringing up questions about how Black women in STEM navigated the dual expectations of white-dominated institutions and their own communities.</p>
+            <p>Rather than simply observing history, Goin's letter forces us to see Du Bois's sociological theories in active practice. She represents the exact kind of professional ambition that challenged the racial boundaries of the 1930s (Goin, 1933).</p>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-chapter">Of our Spiritual Strivings</div>
-                    <div class="timeline-content"><p>This highlights the "double consciousness" and the striving for education as a means to lift the Veil, matching Goin's ambitions.</p></div>
+                    <div class="timeline-content"><p>Goin's simultaneous presence in an elite white institution and her search for Black medical spaces perfectly illustrates the "two unreconciled strivings" (Du Bois, 2018, p. 2). She was actively living out this double consciousness, seeking to merge her Yale education with her dedication to the Black community without compromising her identity.</p></div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-chapter">Of Mr. Booker T. Washington and Others</div>
-                    <div class="timeline-content"><p>This refutes Washington's limitation to industrial training; Goin's pursuit of an advanced nursing degree embodies Du Bois’s advocacy for higher, specialized education.</p></div>
+                    <div class="timeline-content"><p>Du Bois explicitly criticized Washington because his agenda "depreciates institutions of higher learning" (Du Bois, 2018, p. 42) in favor of industrial work. Goin’s letter proves that Black professionals were refusing this compromise, pushing past vocational limits to claim space in elite, specialized academic arenas.</p></div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-chapter">The Souls of White Folk</div>
-                    <div class="timeline-content"><p>This provides context on the systemic white supremacy within institutions that Goin had to navigate, contrasting her community-focused research with the exclusivity of white academia.</p></div>
+                    <div class="timeline-content"><p>Even after gaining access to Yale, Goin had to seek out separate Black hospitals to report on and potentially work in. This reflects Du Bois's critique of systemic exclusion, demonstrating that mere academic admission did not erase the overarching "color line" embedded within white-dominated professions (Du Bois, 2007).</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- Interactive 4: Quote Decryptor -->
+        <!-- Quote Decryptor -->
         <section class="glass-panel panel">
             <h2>Decrypting the Striving</h2>
             <p>Complete the theory to unlock Goin's motivation.</p>
@@ -169,13 +169,13 @@
                 <button class="decrypt-btn" onclick="checkQuote(this, true, 'double-consciousness')">Double Consciousness</button>
                 <button class="decrypt-btn" onclick="checkQuote(this, false, 'Color Line')">Color Line</button>
             </div>
-            <p id="quote-reveal" style="display:none; margin-top:20px; color:var(--correct);"><em>Correct. Goin operated within Yale (a white institution) while seeking Black hospitals, perfectly embodying this dual existence.</em></p>
+            <p id="quote-reveal" style="display:none; margin-top:20px; color:var(--correct);"><em>Correct. Goin operated within Yale (a white institution) while seeking Black hospitals, perfectly embodying this dual existence (Du Bois, 2018)[cite: 9].</em></p>
         </section>
 
-        <!-- Interactive 5: The Veil Challenge Quiz -->
+        <!-- The Veil Challenge Quiz -->
         <section class="glass-panel panel">
-            <h2>Interactive: The Veil Challenge</h2>
-            <p>Final Knowledge Check.</p>
+            <h2>The Veil Challenge</h2>
+            <p>Are you ready to test your knowledge with one final question?</p>
             <div class="quiz-container" id="quiz">
                 <div class="quiz-question" style="display:block;">
                     <h3>Which leader did Du Bois critique for advocating primarily for industrial and manual labor training, a limitation Goin defied by pursuing her advanced nursing degree?</h3>
@@ -192,10 +192,10 @@
         <!-- Formal APA Bibliography -->
         <section class="bibliography panel">
             <h3>Works Cited</h3>
-            <div class="bib-entry">Du Bois, W. E. B. (2007). The souls of white folk. In <em>Darkwater: Voices from within the veil</em>. Oxford University Press.</div>
-            <div class="bib-entry">Du Bois, W. E. B. (2018). Of our spiritual strivings. In <em>The souls of Black folk: Essays and sketches</em> (1-12). University of Massachusetts Press.</div>
-            <div class="bib-entry">Du Bois, W. E. B. (2018). Of Mr. Booker T. Washington and others. In <em>The souls of Black folk: Essays and sketches</em> (40-57). University of Massachusetts Press.</div>
-            <div class="bib-entry">Goin, V. B. (1933, October 16). <em>Letter from Viola B. Goin to The Crisis</em>. W. E. B. Du Bois Papers (MS 312). Special Collections and University Archives, University of Massachusetts Amherst Libraries, Amherst, MA. http://credo.library.umass.edu/view/full/mums312-b065-i428</div>
+            <div class="bib-entry">Du Bois, W. E. B. (2007). The souls of white folk. In <em>Darkwater: Voices from within the veil</em>. Oxford University Press.[cite: 9]</div>
+            <div class="bib-entry">Du Bois, W. E. B. (2018). Of our spiritual strivings. In <em>The souls of Black folk: Essays and sketches</em> (1-12). University of Massachusetts Press.[cite: 9]</div>
+            <div class="bib-entry">Du Bois, W. E. B. (2018). Of Mr. Booker T. Washington and others. In <em>The souls of Black folk: Essays and sketches</em> (40-57). University of Massachusetts Press.[cite: 9]</div>
+            <div class="bib-entry">Goin, V. B. (1933, October 16). <em>Letter from Viola B. Goin to The Crisis</em>. W. E. B. Du Bois Papers (MS 312). Special Collections and University Archives, University of Massachusetts Amherst Libraries, Amherst, MA. http://credo.library.umass.edu/view/full/mums312-b065-i428[cite: 1, 9]</div>
         </section>
     </div>
 
@@ -254,7 +254,7 @@
         const board = document.getElementById('puzzle-board');
         let tiles = [];
         const cols = 3, rows = 3;
-        const tileW = 100, tileH = 120; // 300x360 board
+        const tileW = 100, tileH = 120; 
 
         function initPuzzle() {
             let index = 0;
